@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Streamline legal document processing with guided intake and assisted review." />
+  <title>LexFlow — Legal Document Processing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="header">
+      <a href="#" class="logo" data-nav="home" aria-label="LexFlow home">
+        <span class="logo-mark"></span>
+        LexFlow
+      </a>
+      <nav class="nav" aria-label="Main">
+        <button type="button" class="nav-link" data-nav="questionnaire">Intake</button>
+        <button type="button" class="nav-link" data-nav="chat">Assistant</button>
+        <button type="button" class="nav-link nav-link--cta" data-nav="payment">Pay</button>
+      </nav>
+      <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </header>
+
+    <main class="main">
+      <!-- Home -->
+      <section class="screen screen--active" id="screen-home" data-screen="home">
+        <div class="hero">
+          <p class="eyebrow fade-in">Legal document processing</p>
+          <h1 class="hero-title fade-in fade-in-delay-1">Documents, simplified.</h1>
+          <p class="hero-lead fade-in fade-in-delay-2">
+            Complete a short intake, get guidance from our assistant (demo), and finish with a secure checkout flow—all in one calm experience.
+          </p>
+          <div class="hero-actions fade-in fade-in-delay-3">
+            <button type="button" class="btn btn--primary" data-nav="questionnaire">Start intake</button>
+            <button type="button" class="btn btn--ghost" data-nav="chat">Try assistant</button>
+          </div>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">◆</div>
+            <h2>Guided questionnaire</h2>
+            <p>Tell us what you need in a few steps. Your answers shape the next screen.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">◇</div>
+            <h2>AI-style assistant</h2>
+            <p>Demo replies help you explore how chat could support your case (no live model in MVP).</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">○</div>
+            <h2>Payment ready</h2>
+            <p>Simulated card flow with success state—wire to a processor when you go live.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Questionnaire -->
+      <section class="screen" id="screen-questionnaire" data-screen="questionnaire" hidden>
+        <div class="panel">
+          <div class="panel-header">
+            <h1 class="panel-title">Intake</h1>
+            <p class="panel-sub">Step <span id="qStepNum">1</span> of <span id="qStepTotal">1</span></p>
+          </div>
+          <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="qProgress">
+            <div class="progress-bar" id="qProgressBar"></div>
+          </div>
+          <form class="quiz-form" id="quizForm" novalidate>
+            <div id="quizSteps"></div>
+            <div class="quiz-actions">
+              <button type="button" class="btn btn--ghost" id="quizBack">Back</button>
+              <button type="button" class="btn btn--primary" id="quizNext">Continue</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Chat -->
+      <section class="screen" id="screen-chat" data-screen="chat" hidden>
+        <div class="chat-layout">
+          <div class="panel chat-panel">
+            <div class="panel-header chat-header">
+              <div>
+                <h1 class="panel-title">Assistant</h1>
+                <p class="panel-sub demo-pill">Demo — simulated responses</p>
+              </div>
+              <button type="button" class="btn btn--text" id="clearChat" title="Clear conversation">Clear</button>
+            </div>
+            <div class="chat-messages" id="chatMessages" role="log" aria-live="polite"></div>
+            <form class="chat-input-row" id="chatForm">
+              <label class="sr-only" for="chatInput">Message</label>
+              <input type="text" id="chatInput" class="chat-input" autocomplete="off" placeholder="Ask about documents, timelines, or fees…" maxlength="500" />
+              <button type="submit" class="btn btn--primary btn--send" aria-label="Send">↑</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Summary + Payment -->
+      <section class="screen" id="screen-payment" data-screen="payment" hidden>
+        <div class="payment-grid">
+          <div class="panel">
+            <h1 class="panel-title">Review & pay</h1>
+            <p class="panel-sub">Demo pricing from your intake (stored in-session only).</p>
+            <div class="summary-block" id="orderSummary"></div>
+          </div>
+          <div class="panel">
+            <h2 class="panel-title panel-title--sm">Payment</h2>
+            <p class="panel-sub">Test card: 4242 4242 4242 4242 — any future expiry and CVC.</p>
+            <form class="pay-form" id="payForm" novalidate>
+              <label class="field">
+                <span>Name on card</span>
+                <input type="text" name="cardName" id="cardName" placeholder="Jordan Lee" autocomplete="cc-name" required />
+              </label>
+              <label class="field">
+                <span>Card number</span>
+                <input type="text" name="cardNumber" id="cardNumber" inputmode="numeric" placeholder="4242 4242 4242 4242" autocomplete="cc-number" required />
+              </label>
+              <div class="field-row">
+                <label class="field">
+                  <span>Expiry</span>
+                  <input type="text" name="expiry" id="expiry" placeholder="MM / YY" autocomplete="cc-exp" required />
+                </label>
+                <label class="field">
+                  <span>CVC</span>
+                  <input type="text" name="cvc" id="cvc" inputmode="numeric" placeholder="123" autocomplete="cc-csc" required />
+                </label>
+              </div>
+              <button type="submit" class="btn btn--primary btn--block" id="paySubmit">Pay <span id="payAmount">$0.00</span></button>
+            </form>
+            <div class="pay-success" id="paySuccess" hidden>
+              <div class="success-ring" aria-hidden="true"></div>
+              <p class="success-title">Payment received</p>
+              <p class="success-copy">This is a demo. No charge was made.</p>
+              <button type="button" class="btn btn--ghost" data-nav="home">Back to home</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>LexFlow MVP — demo data only. Not legal advice.</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
